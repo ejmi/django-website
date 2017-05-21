@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}Welcome | {{ block.super}} {% endblock %}
+
+<style>
+{% block style %}
+
+.jumbotron {
+    background-color: grey;
+}
+.navbar-static-top {
+  margin-bottom: 0px !important;
+}
+
+{% endblock %}
+</style>
+
+{% block jumbotron %}
+ {% if not request.user.is_authenticated %}
+
+
+<div class="jumbotron">
+    <div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Lorem ipsum</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur.</p>
+            <p>
+                <a class="btn btn-lg btn-primary" href="" role="button">Sign up &raquo;</a>
+            </p>
+        </div>
+        <div class="col-sm-6">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/ljQsRLN2dXA" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>    
+</div>
+</div>
+{% endif %}
+{% endblock %}
+
+
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+<h1>You are logged in</h1>
+
+    {% if queryset %}
+    <h1>Weelcome staff</h1>
+    <table class="table">
+    {% for instance in queryset %}
+        <tr><td>{{ forloop.counter }}</td><td>{{ instance.email  }}</td><td>{{ instance.full_name }}</td><td>{{ instance.timestamp|timesince }}ago</td><tr>
+    {% endfor %}
+    </table>
+    {% endif %}
+
+{% else %}
+<div class="row">
+    <div class="col-sm-3 pull-right">
+        <p class="lead text-align-center">{{ title }}</p>
+
+        <form method='POST' action=''>{% csrf_token %}
+        {{ form|crispy }}
+
+        <input class='btn btn-primary' type='submit' value='Sing Up' />
+
+        </form>
+    </div> 
+
+    <div class="col-sm-3">
+        <p class="lead text-align-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+        <img src="{% static 'img/1.gif' %}" class="img-responsive" />
+    </div>
+    <div class="col-sm-3">
+        <p class="lead text-align-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+        <img src="{% static 'img/2.gif' %}" class="img-responsive" />
+    </div>
+    <div class="col-sm-3">
+        <p class="lead text-align-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+        <img src="{% static 'img/3.gif' %}" class="img-responsive" />
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}
